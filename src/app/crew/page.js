@@ -108,7 +108,8 @@ export default function Home() {
                 <td className="px-4 py-2">{member.licenceNbr || "N/A"}</td>
                 <td className="px-4 py-2">{member.workingFrom || "N/A"}</td>
                 <td className="px-4 py-2">
-                  {member.type?.replace(/[\[\]"]/g, "") || "N/A"}
+                  {member.type ? member.type[0] : "N/A"}
+                  {/* {member.type?.replace(/[\[\]"]/g, "") || "N/A"} */}
                 </td>
               </tr>
             ))}

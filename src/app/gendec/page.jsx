@@ -117,17 +117,18 @@ export default function FlightForm() {
   const { aircraft, aircraftIsLoading, aircraftError } = useSelector(
     (state) => state.aircraft
   );
+  
 
   const selectItems = [
     {
       name: "ac",
-      data: aircraft.filter((ac) => ac.operator === values.operator.iata),
+      data: aircraft.filter((ac) => ac.operator === values.operator.fullname),
       label: "Aircraft",
     },
     {
       name: "captain",
       data: crew.filter(
-        (crew) => crew.rank === "CAPT" && crew.type?.includes(values.ac?.type)
+        (crew) => crew.rank === "CAPT" /* && crew.type?.includes(values.ac?.type) */
       ),
       label: "Captain",
     },
@@ -240,7 +241,7 @@ export default function FlightForm() {
             </div>
           </div>
 
-          <div>
+ {/*          <div>
             {data.map((apt) => {
               return (
                 <div key={apt._id}>
@@ -251,7 +252,7 @@ export default function FlightForm() {
                 </div>
               );
             })}
-          </div>
+          </div> */}
           <h2 className="text-xl font-semibold mt-6">Passenger Information</h2>
           {Array.from({ length: values.paxNbr }).map((_, i) =>
             renderPassengerFields(i, values, handlePaxOnChange)

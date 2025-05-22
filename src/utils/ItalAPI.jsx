@@ -2,13 +2,13 @@
 
 import React from "react";
 import { CSVLink } from "react-csv";
-import { formatDateNaslov } from "./globalFunctions";
+import { formatDate } from "./globalFunctions";
 import { Button } from "@/components/ui/button";
 
 const Italapi = ({ data, values, crew }) => {
   const { arrTime, depTime, date, pax = [], captain, copilot, stw } = values;
-  const dateCorr = formatDateNaslov(date);
-  console.log(dateCorr);
+  const dateCorr = formatDate(date);
+ 
 
   const [iataDep = {}, iataDest = {}] = data;
   const iataDepCode = iataDep.iata || "";

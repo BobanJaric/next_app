@@ -6,7 +6,7 @@ import {
     SelectItem,
   } from "@/components/ui/select";
   import { Input } from "@/components/ui/input";
-import { dateConvertBack } from "@/utils/globalFunctions";
+
 
 
   export const renderPassengerFields = (i, values, handlePaxOnChange) => {
@@ -57,8 +57,8 @@ import { dateConvertBack } from "@/utils/globalFunctions";
               <SelectValue placeholder="Select Gender" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="male">Male</SelectItem>
-              <SelectItem value="female">Female</SelectItem>
+              <SelectItem value="M">Male</SelectItem>
+              <SelectItem value="F">Female</SelectItem>
             </SelectContent>
           </Select>
         </div>
