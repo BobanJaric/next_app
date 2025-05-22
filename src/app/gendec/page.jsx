@@ -25,6 +25,7 @@ import { createXml } from "@/utils/CreateXml";
 import SpainApi from "@/utils/SpainAPI";
 import Italapi from "@/utils/ItalAPI";
 import { excelDateToJSDate } from "@/utils/globalFunctions";
+import ExcelUploader from "@/components/ExcelUploader";
 
 const paxNumber = [
   { name: "1", id: "1" },
@@ -287,7 +288,8 @@ export default function FlightForm() {
           {Array.from({ length: values.paxNbr }).map((_, i) =>
             renderPassengerFields(i, values, handlePaxOnChange)
           )}
-          <input type="file" onChange={handleFileUpload} />
+          
+          <ExcelUploader values={values} setValues={setValues} />
           {values.date && <Italapi data={data} values={values} crew={crew} />}
           {api.spain && <SpainApi data={data} values={values} />}
           {[
