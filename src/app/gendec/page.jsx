@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import * as XLSX from 'xlsx';
 import { Card, CardContent } from "@/components/ui/card";
 import { fetchData } from "@/lib/redux/slices/exampleSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,6 +24,7 @@ import { ValidButton } from "@/components/ValidButton";
 import { createXml } from "@/utils/CreateXml";
 import SpainApi from "@/utils/SpainAPI";
 import Italapi from "@/utils/ItalAPI";
+import { excelDateToJSDate } from "@/utils/globalFunctions";
 
 const paxNumber = [
   { name: "1", id: "1" },
@@ -117,7 +119,7 @@ export default function FlightForm() {
   const { aircraft, aircraftIsLoading, aircraftError } = useSelector(
     (state) => state.aircraft
   );
-  
+
 
   const selectItems = [
     {
@@ -173,7 +175,35 @@ export default function FlightForm() {
   }, []);
 
 
-  const turkeyApi = () => {};
+  const turkeyApi = () => { };
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = (event) => {
+      const workbook = XLSX.read(event.target.result, { type: 'binary' });
+      const sheetName = workbook.SheetNames[0];
+      const sheet = workbook.Sheets[sheetName];
+      const sheetData = XLSX.utils.sheet_to_json(sheet);
+      sheetData.shift()
+      console.log(sheetData);
+      
+      
+      const pax1 = sheetData.map((item) => ({
+        name: `${item["Pax list"]} ${item["__EMPTY"]}`,
+        dob: String(item["__EMPTY_4"]), // Ensure it's a string
+        nationality: item["__EMPTY_12"],
+        passport: String(item["__EMPTY_13"]),
+        doe: item["__EMPTY_14"],
+        doi: "", // Not available in source
+        gender: item["__EMPTY_7"],
+      }));
+
+      setValues({...values,pax:pax1})
+    };
+    reader.readAsBinaryString(file);
+  };
 
 
   return (
@@ -241,7 +271,7 @@ export default function FlightForm() {
             </div>
           </div>
 
- {/*          <div>
+          {/*          <div>
             {data.map((apt) => {
               return (
                 <div key={apt._id}>
@@ -257,6 +287,7 @@ export default function FlightForm() {
           {Array.from({ length: values.paxNbr }).map((_, i) =>
             renderPassengerFields(i, values, handlePaxOnChange)
           )}
+          <input type="file" onChange={handleFileUpload} />
           {values.date && <Italapi data={data} values={values} crew={crew} />}
           {api.spain && <SpainApi data={data} values={values} />}
           {[

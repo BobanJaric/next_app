@@ -60,3 +60,8 @@ export const dayBeforeFunc = (date) => {
   return d + "." + m + "." + y;
 }
 
+export function excelDateToJSDate(serial) {
+  const excelEpoch = new Date(1899, 11, 31); // Excel's epoch start
+  return new Date(excelEpoch.getTime() + serial * 24 * 60 * 60 * 1000);
+}
+
