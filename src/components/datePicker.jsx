@@ -7,12 +7,14 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
+import { useState } from "react";
 
 export const DatePicker = ({ values, setValues }) => {
+  const [open, setOpen] = useState(false);
   return (
     <div>
       <Label className="py-4">Date</Label>
-      <Popover>
+      <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button variant="outline" className="w-full text-left font-normal">
             {values.date ? (
@@ -25,9 +27,12 @@ export const DatePicker = ({ values, setValues }) => {
         <PopoverContent className="w-auto p-0">
           <Calendar
             mode="single"
-            initialFocus
-            onSelect={(value) => setValues({ ...values, date: value })}
             selected={values.date}
+            onSelect={(value) => {
+              setValues({ ...values, date: value });
+              setOpen(false); // close the pop-up
+            }}
+            initialFocus
           />
         </PopoverContent>
       </Popover>

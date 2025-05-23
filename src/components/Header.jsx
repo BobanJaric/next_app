@@ -13,7 +13,7 @@ export default function Header() {
 
   const handleLogout = async () => {
     await fetch("/api/auth/logout", { method: "POST" });
-    logout(); 
+    logout();
     router.push("/sign-in");
   };
 
@@ -72,8 +72,27 @@ export default function Header() {
                   GenDec
                 </Link>
               </li>
-              <li>
-                <button className="hover:text-amber-500 transition-colors" onClick={handleLogout}>Sign Out</button>
+              <li className="relative group">
+                <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-amber-500 cursor-pointer">
+                  <img
+                    src={
+                      user?.avatar ||
+                      `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                        user.name || "User"
+                      )}&background=amber&color=fff`
+                    }
+                    alt="User Avatar"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="absolute right-0 mt-2 w-32 bg-white dark:bg-gray-800 shadow-lg rounded-md opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                  <button
+                    onClick={handleLogout}
+                    className="w-full px-4 py-2 text-sm text-left text-gray-700 dark:text-gray-200 hover:bg-amber-100 dark:hover:bg-gray-700"
+                  >
+                    Sign Out
+                  </button>
+                </div>
               </li>
             </>
           )}

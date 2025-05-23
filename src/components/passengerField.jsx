@@ -6,62 +6,66 @@ import {
     SelectItem,
   } from "@/components/ui/select";
   import { Input } from "@/components/ui/input";
+import CreateTurApi from "@/utils/CreateTurApi";
 
 
 
-  export const renderPassengerFields = (i, values, handlePaxOnChange) => {
-    const pax = values.pax[i];
-  
-    return (
-      <div key={i} className="grid md:grid-cols-6 gap-4">
-        <div>
-          <Input
-            placeholder="First and Last Name"
-            className="w-45 ml-1"
-            value={pax?.name}
-            onChange={(e) => handlePaxOnChange(i, "name", e.target.value)}
-          />
-        </div>
-        <div>
-          <Input
-            value={pax?.dob}
-            onChange={(e) => handlePaxOnChange(i, "dob", (e.target.value))}
-          />
-        </div>
-        <div>
-          <Input
-            placeholder="e.g. Serbian"
-            value={pax?.nationality}
-            onChange={(e) => handlePaxOnChange(i, "nationality", e.target.value)}
-          />
-        </div>
-        <div>
-          <Input
-            placeholder="Passport Number"
-            value={pax?.passport}
-            onChange={(e) => handlePaxOnChange(i, "passport", e.target.value)}
-          />
-        </div>
-        <div>
-          <Input
-            value={pax?.doe}
-            onChange={(e) => handlePaxOnChange(i, "doe", (e.target.value))}
-          />
-        </div>
-        <div>
-          <Select
-            value={pax?.gender}
-            onValueChange={(value) => handlePaxOnChange(i, "gender", value)}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Select Gender" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="M">Male</SelectItem>
-              <SelectItem value="F">Female</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-      </div>
-    );
-  };
+export const renderPassengerFields = (i, values, handlePaxOnChange,api) => {
+  const pax = values.pax[i];
+
+  return (
+    <div key={i} className={`grid grid-cols-1 ${api.turkey ? 'md:grid-cols-7' : 'md:grid-cols-6'}  gap-4 p-4 border rounded-xl shadow-sm bg-white mb-4`}>
+      <Input
+        placeholder="First and Last Name"
+        className="w-full"
+        value={pax?.name}
+        onChange={(e) => handlePaxOnChange(i, "name", e.target.value)}
+      />
+
+      <Input
+        placeholder="Date of Birth"
+        className="w-full"
+        value={pax?.dob}
+        onChange={(e) => handlePaxOnChange(i, "dob", e.target.value)}
+      />
+
+      <Input
+        placeholder="Nationality"
+        className="w-full"
+        value={pax?.nationality}
+        onChange={(e) => handlePaxOnChange(i, "nationality", e.target.value)}
+      />
+
+      <Input
+        placeholder="Passport Number"
+        className="w-full"
+        value={pax?.passport}
+        onChange={(e) => handlePaxOnChange(i, "passport", e.target.value)}
+      />
+
+      <Input
+        placeholder="Passport Expiry"
+        className="w-full"
+        value={pax?.doe}
+        onChange={(e) => handlePaxOnChange(i, "doe", e.target.value)}
+      />
+
+      <Select
+        value={pax?.gender}
+        onValueChange={(value) => handlePaxOnChange(i, "gender", value)}
+      >
+        <SelectTrigger className="w-full">
+          <SelectValue placeholder="Gender" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="M">Male</SelectItem>
+          <SelectItem value="F">Female</SelectItem>
+        </SelectContent>
+      </Select>
+
+    { api.turkey && <div className="w-full">
+        <CreateTurApi val={pax} />
+      </div>}
+    </div>
+  );
+};
