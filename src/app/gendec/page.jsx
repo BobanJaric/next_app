@@ -24,6 +24,7 @@ import { createXml } from "@/utils/CreateXml";
 import SpainApi from "@/utils/SpainAPI";
 import Italapi from "@/utils/ItalAPI";
 import ExcelUploader from "@/components/ExcelUploader";
+import CreateRomaniaApi from "@/utils/CreateRomaniaApi";
 
 const paxNumber = [
   { name: "1", id: "1" },
@@ -43,6 +44,7 @@ const countryPrefixes = {
   LE: "spain",
   LI: "italy",
   LT: "turkey",
+  LR: "romania",
 };
 
 const operators = [
@@ -87,6 +89,7 @@ export default function FlightForm() {
     spain: false,
     turkey: false,
     italy: false,
+    romania: false,
   });
 
   const handleOnChange = (event) => {
@@ -251,6 +254,7 @@ export default function FlightForm() {
           <ExcelUploader values={values} setValues={setValues} />
           {values.date && api.italy && <Italapi data={data} values={values} crew={crew} />}
           {api.spain && <SpainApi data={data} values={values} />}
+          {api.romania && <CreateRomaniaApi data={data} values={values} />}
           {[{ name: "poland", func: () => createXml(data, values) }].map(
             ({ name, func }) => (
               <ValidButton

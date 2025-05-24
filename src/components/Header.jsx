@@ -87,6 +87,12 @@ export default function Header() {
                 </div>
                 <div className="absolute right-0 mt-2 w-32 bg-white dark:bg-gray-800 shadow-lg rounded-md opacity-0 group-hover:opacity-100 transition-opacity z-10">
                   <button
+                    onClick={() => {}}
+                    className="w-full px-4 py-2 text-sm text-left text-gray-700 dark:text-gray-200 hover:bg-amber-100 dark:hover:bg-gray-700"
+                  >
+                    Setings
+                  </button>
+                  <button
                     onClick={handleLogout}
                     className="w-full px-4 py-2 text-sm text-left text-gray-700 dark:text-gray-200 hover:bg-amber-100 dark:hover:bg-gray-700"
                   >

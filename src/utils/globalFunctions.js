@@ -65,3 +65,20 @@ export function excelDateToJSDate(serial) {
   return new Date(excelEpoch.getTime() + serial * 24 * 60 * 60 * 1000);
 }
 
+export const transformPassengers = (passengers) =>
+passengers.map((passenger, index) => {
+  const [firstName, lastName] = passenger.name.split(" ");
+  return {
+    firstName,
+    lastName,
+    gender: passenger.gender,
+    dob: passenger.dob,
+    nationality: passenger.nationality,
+    docType: "Passport",
+    docNbr: passenger.passport,
+    doe: passenger.doe,
+    issued: passenger.nationality,
+    seat: index + 1,
+  };
+});
+

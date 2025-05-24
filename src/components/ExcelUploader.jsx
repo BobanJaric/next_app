@@ -68,7 +68,7 @@ export default function ExcelUploader({ values, setValues }) {
   return (
     <div
       className={`border-2 border-dashed p-6 rounded-2xl cursor-pointer transition-colors duration-300 ${
-        isDragging ? "border-blue-500 bg-blue-50" : "border-gray-300 bg-white"
+        isDragging ? "border-blue-500 bg-blue-50" : "border-gray-300 "
       } hover:border-blue-400 hover:bg-blue-50 flex flex-col items-center justify-center`}
       onDragOver={(e) => {
         e.preventDefault();

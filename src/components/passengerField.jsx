@@ -9,12 +9,12 @@ import {
 import CreateTurApi from "@/utils/CreateTurApi";
 
 
-
 export const renderPassengerFields = (i, values, handlePaxOnChange,api) => {
+
   const pax = values.pax[i];
 
   return (
-    <div key={i} className={`grid grid-cols-1 ${api.turkey ? 'md:grid-cols-7' : 'md:grid-cols-6'}  gap-4 p-4 border rounded-xl shadow-sm bg-white mb-4`}>
+    <div key={i} className={`grid grid-cols-1 ${api.turkey ? 'md:grid-cols-7' : 'md:grid-cols-6'}  gap-4 p-4 border rounded-xl shadow-sm  mb-4`}>
       <Input
         placeholder="First and Last Name"
         className="w-full"
