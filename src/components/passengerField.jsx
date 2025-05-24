@@ -26,7 +26,7 @@ export const renderPassengerFields = (i, values, handlePaxOnChange,api) => {
         placeholder="Date of Birth"
         className="w-full"
         value={pax?.dob}
-        onChange={(e) => handlePaxOnChange(i, "dob", e.target.value)}
+        onChange={(e) => handlePaxOnChange(i, "dob", e.target.value.replace(/,/g, "."))}
       />
 
       <Input
@@ -47,7 +47,7 @@ export const renderPassengerFields = (i, values, handlePaxOnChange,api) => {
         placeholder="Passport Expiry"
         className="w-full"
         value={pax?.doe}
-        onChange={(e) => handlePaxOnChange(i, "doe", e.target.value)}
+        onChange={(e) => handlePaxOnChange(i, "doe", e.target.value.replace(/,/g, "."))}
       />
 
       <Select

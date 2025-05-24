@@ -25,9 +25,10 @@ import SpainApi from "@/utils/SpainAPI";
 import Italapi from "@/utils/ItalAPI";
 import ExcelUploader from "@/components/ExcelUploader";
 import CreateRomaniaApi from "@/utils/CreateRomaniaApi";
+import { Spinner } from "@/components/Spinner";
 
 const paxNumber = [
-  { name: "1", id: "1" },
+  { name: 1, id: "1" },
   { name: "2", id: "2" },
   { name: "3", id: "3" },
   { name: "4", id: "4" },
@@ -181,6 +182,7 @@ export default function FlightForm() {
     dispatch(fetchAircraft());
   }, []);
 
+  if (isLoading && crewIsLoading && aircraftIsLoading) return <Spinner />;
 
   return (
     <div className="max-w-7xl mx-auto p-6 grid gap-5 ">
