@@ -31,7 +31,11 @@ const Italapi = ({ data, values, crew }) => {
 
   const formatPaxData = (p) => {
     const [firstName, lastName] = p.name.toUpperCase().split(" ");
-    const dob = p.dob.split(".").reverse().join("-");
+
+    const dob = p.dob
+ 
+
+    
     return `PAX,${firstName || ""},${lastName || ""},,${p.gender},${dob},,${
       p.nationality
     },P,${p.passport},,${p.nationality},,,,,${iataDepCode},${iataDestCode},`;
@@ -40,6 +44,10 @@ const Italapi = ({ data, values, crew }) => {
   const captainData = findCrewMember(captain);
   const copilotData = findCrewMember(copilot);
   const stwData = findCrewMember(stw);
+
+  let iataCode ="PNC";
+     if(values.ac.operator==="Aviator.S5")iataCode="VIO";
+
 
   const crewDetails = [captainData, copilotData, stwData]
     .filter(Boolean)
@@ -56,7 +64,7 @@ const Italapi = ({ data, values, crew }) => {
     .map(formatPaxData)
     .join("\n");
 
-  const data2 = `FD,PNC111,${iataDepCode},${iataDestCode},${dateCorr},${
+  const data2 = `FD,${iataCode}111,${iataDepCode},${iataDestCode},${dateCorr},${
     depTime || ""
   },${dateCorr},${arrTime || ""},
 CTN,BRANIMIR RADIN,381-112-608433,,
@@ -68,7 +76,7 @@ ${paxDetails}`;
     <CSVLink
       uFEFF={false}
       data={data2}
-      filename={`PNC111 ${dateCorr.replace(/-/g, "")}.csv`}
+      filename={`${iataCode}111 ${dateCorr.replace(/-/g, "")}.csv`}
     >
       <Button className="w-full" type="button">
         Ital API

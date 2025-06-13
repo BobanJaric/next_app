@@ -16,17 +16,26 @@ export default function ExcelUploader({ values, setValues }) {
       const sheetData = XLSX.utils.sheet_to_json(sheet);
       sheetData.shift(); // Remove header row (optional)
 
-      const pax1 = sheetData.map((item) => ({
-        name: `${item["Pax list"]} ${item["__EMPTY"]}`,
-        dob: String(item["__EMPTY_4"]),
-        nationality: item["__EMPTY_12"],
-        passport: String(item["__EMPTY_13"]),
-        doe: item["__EMPTY_14"],
-        doi: "",
-        gender: item["__EMPTY_7"],
-      }));
 
-      setValues({ ...values, pax: pax1 });
+      const pax1 = sheetData.map((item) => {
+
+        let nat = item["__EMPTY_12"] ? item["__EMPTY_12"] : item["__EMPTY_20"]
+        let pas = item["__EMPTY_13"] ? item["__EMPTY_13"] : item["__EMPTY_21"]
+        let de = item["__EMPTY_17"] ? item["__EMPTY_17"] : item["__EMPTY_25"]
+        return ({
+          name: `${item["Pax list"]} ${item["__EMPTY"]}`,
+          dob: String(item["__EMPTY_4"]),
+          nationality: nat,
+          passport: pas,
+          doe: de,
+          doi: "",
+          gender: item["__EMPTY_7"],
+        })
+      });
+
+
+
+      setValues({ ...values, pax: pax1, paxNbr: pax1.length });
     };
 
     reader.readAsBinaryString(file);
@@ -67,9 +76,8 @@ export default function ExcelUploader({ values, setValues }) {
 
   return (
     <div
-      className={`border-2 border-dashed p-6 rounded-2xl cursor-pointer transition-colors duration-300 ${
-        isDragging ? "border-blue-500 bg-blue-50" : "border-gray-300 "
-      } hover:border-blue-400 hover:bg-blue-50 flex flex-col items-center justify-center`}
+      className={`border-2 border-dashed p-6 rounded-2xl cursor-pointer transition-colors duration-300 ${isDragging ? "border-blue-500 bg-blue-50" : "border-gray-300 "
+        } hover:border-blue-400 hover:bg-blue-50 flex flex-col items-center justify-center`}
       onDragOver={(e) => {
         e.preventDefault();
         setIsDragging(true);

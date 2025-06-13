@@ -1,15 +1,17 @@
 import {
-    Select,
-    SelectTrigger,
-    SelectValue,
-    SelectContent,
-    SelectItem,
-  } from "@/components/ui/select";
-  import { Input } from "@/components/ui/input";
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 import CreateTurApi from "@/utils/CreateTurApi";
 
 
-export const renderPassengerFields = (i, values, handlePaxOnChange,api) => {
+
+
+export const renderPassengerFields = (i, values, handlePaxOnChange, api, error) => {
 
   const pax = values.pax[i];
 
@@ -29,12 +31,19 @@ export const renderPassengerFields = (i, values, handlePaxOnChange,api) => {
         onChange={(e) => handlePaxOnChange(i, "dob", e.target.value.replace(/,/g, "."))}
       />
 
-      <Input
-        placeholder="Nationality"
-        className="w-full"
-        value={pax?.nationality}
-        onChange={(e) => handlePaxOnChange(i, "nationality", e.target.value)}
-      />
+
+      <div>
+        <Input
+          placeholder="Nationality"
+          className="w-full"
+          value={pax?.nationality}
+          onChange={(e) => {
+
+            handlePaxOnChange(i, "nationality", e.target.value);
+          }}
+        />
+        {error && <><p className="text-red-500 text-sm mt-1">{error}</p></>}
+      </div>
 
       <Input
         placeholder="Passport Number"
@@ -63,7 +72,7 @@ export const renderPassengerFields = (i, values, handlePaxOnChange,api) => {
         </SelectContent>
       </Select>
 
-    { api.turkey && <div className="w-full">
+      {api.turkey && <div className="w-full">
         <CreateTurApi val={pax} />
       </div>}
     </div>

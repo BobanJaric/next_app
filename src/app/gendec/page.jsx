@@ -21,11 +21,12 @@ import {
 import { Label } from "@/components/ui/label";
 import { ValidButton } from "@/components/ValidButton";
 import { createXml } from "@/utils/CreateXml";
-import SpainApi from "@/utils/SpainAPI";
+
 import Italapi from "@/utils/ItalAPI";
 import ExcelUploader from "@/components/ExcelUploader";
 import CreateRomaniaApi from "@/utils/CreateRomaniaApi";
 import { Spinner } from "@/components/Spinner";
+import SpainApi from "@/utils/SpainAPI";
 
 const paxNumber = [
   { name: 1, id: "1" },
@@ -54,6 +55,7 @@ const operators = [
 ];
 
 export default function FlightForm() {
+  const [errorForm, setErrorForm] = useState('');
   const [values, setValues] = useState({
     operator: { _id: 1, fullname: "Prince Aviation", iata: "PNC" },
     date: "",
@@ -96,11 +98,19 @@ export default function FlightForm() {
   const handleOnChange = (event) => {
     const { name, value } = event.target;
     let valueData = value;
+ 
     if (name === "originIcao" || name === "destIcao")
       valueData = value.toUpperCase();
     setValues({ ...values, [name]: valueData });
   };
   const handlePaxOnChange = (index, field, value) => {
+       console.log(field);
+    
+     if (field==="nationality" && value.length > 3) {
+      setErrorForm('Nationality must be max 3 letters');
+    } else {
+      setErrorForm('');
+    }
     setValues((prev) => {
       const updatedPax = [...prev.pax];
       updatedPax[index] = {
@@ -144,7 +154,7 @@ export default function FlightForm() {
     },
     {
       name: "copilot",
-      data: crew.filter((crew) => crew.rank === "F/O" && crew.type?.includes(values.ac?.type)),
+      data: crew.filter((crew) => (crew.rank !== "ACM") && crew.type?.includes(values.ac?.type)),
       label: "Copilot",
     },
     {
@@ -250,12 +260,12 @@ export default function FlightForm() {
           </div>
           <h2 className="text-xl font-semibold mt-6">Passenger Information</h2>
           {Array.from({ length: values.paxNbr }).map((_, i) =>
-            renderPassengerFields(i, values, handlePaxOnChange, api)
+            renderPassengerFields(i, values, handlePaxOnChange, api,errorForm)
           )}
 
           <ExcelUploader values={values} setValues={setValues} />
           {values.date && api.italy && <Italapi data={data} values={values} crew={crew} />}
-          {api.spain && <SpainApi data={data} values={values} />}
+          {api?.spain && <SpainApi data={data} values={values} />}
           {api.romania && <CreateRomaniaApi data={data} values={values} />}
           {[{ name: "poland", func: () => createXml(data, values) }].map(
             ({ name, func }) => (
